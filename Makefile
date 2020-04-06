@@ -11,11 +11,16 @@ check: check.cpp
 display: displaySort.cpp sort.h sort.cpp
 	g++ displaySort.cpp sort.cpp -o display
 	
+ifeq ($(OS),Windows_NT)
+    RM = del
+else
+    RM = rm
+endif
 
 clean: 
-	rm -rf Data/*.txt
-	rm -f generateData
-	rm -f check
+	$(RM) -rf Data/*.txt
+	$(RM) -f generateData
+	$(RM) -f check
 
 
 
