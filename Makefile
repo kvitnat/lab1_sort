@@ -9,7 +9,8 @@ check: check.cpp
 	./check
 
 display: displaySort.cpp sort.h sort.cpp
-	g++ displaySort.cpp sort.cpp -o display
+	g++ sort.cpp displaySort.cpp -o display
+	./display
 	
 ifeq ($(OS),Windows_NT)
     RM = del
