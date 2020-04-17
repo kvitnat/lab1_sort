@@ -22,6 +22,7 @@ clean:
 	$(RM) -rf Data/*.txt
 	$(RM) -f generateData
 	$(RM) -f check
+	$(RM) -f display
 
 
 

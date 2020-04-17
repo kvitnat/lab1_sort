@@ -1,8 +1,10 @@
 #include "sort.h"
-void strand_sort(std::vector<int> & numbers)
+typedef std::vector<int> T;
+
+void strand_sort(T & numbers)
 {
-    std::vector<int> temp;
-    std::vector<int> result;
+    T temp;
+    T result;
 
     while(numbers.size() > 0)
     {
@@ -27,8 +29,29 @@ void strand_sort(std::vector<int> & numbers)
     numbers = result;
 }
 
-void pigeonhole_sort(std::vector<int> & numbers)
+void pigeonhole_sort(T & numbers)
 {
+    int min = numbers[0], max = numbers[0];
+    for(int i = 0; i < numbers.size(); ++i)
+    {
+        if (numbers[i] > max)
+            max = numbers[i];
+        if (numbers[i] < min)
+            min = numbers[i];
+    }
+
+    int range = max - min + 1;
+
+    T* pigeonholes = new T[range];
+    for(int i = 0; i < numbers.size(); ++i)
+        pigeonholes[numbers[i] - min].push_back(numbers[i]);
+
+    numbers.clear();
+    for(int i = 0; i < range; ++i){
+        for(int j = 0; j < pigeonholes[i].size(); ++j)
+            numbers.push_back((pigeonholes[i])[j]);
+    }
+
 
 }
 
