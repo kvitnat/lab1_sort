@@ -1,10 +1,13 @@
 #include <vector>
 #include <iostream>
 #include <unistd.h>
-void strand_sort(std::vector<int> & numbers);
 
-void pigeonhole_sort(std::vector<int> & numbers);
+typedef std::vector<int> T;
 
-void multi_pivot_sort(std::vector<int> & numbers);
+void strand_sort(T & numbers);
 
-void introsort(std::vector<int> & numbers);
+void pigeonhole_sort(T & numbers);
+
+void multi_pivot_sort(T & numbers);
+
+void introsort(T & numbers);

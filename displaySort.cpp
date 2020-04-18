@@ -1,18 +1,91 @@
 #include "sort.h"
 #include <chrono>
 #include <fstream>
+#include <map>
+#include <thread>
 using namespace std::chrono;
+
+void check_sort(void (*sort)(T&), std::string msg);
 
 int main()
 {
-	std::vector<int> numbers;
-	//std::ifstream file("Data/unif_2p15_300_data_1.txt");
-	std::ifstream file("my_data.txt");
-	if (!file.is_open())
+	//check_sort(strand_sort, "strand sort");
+	//check_sort(pigeonhole_sort, "pigeonhole sort");
+
+
+
+	int intervals_millisec[5];
+	std::map<std::string, int> average_millisec;
+
+	std::vector<std::string> filenames = {"Data/unif_2p15_30_data_",
+										  "Data/unif_2p31_30_data_",
+										  "Data/unif_N_30_data_",
+										  "Data/norm_2p31_30_data_",
+										  "Data/unif_N_30_data_",
+										  "Data/unif_2p15_100_data_",
+										  "Data/unif_2p31_100_data_",
+										  "Data/unif_N_100_data_",
+										  "Data/norm_2p31_100_data_",
+										  "Data/unif_2p15_300_data_",
+										  "Data/unif_2p31_300_data_",
+										  "Data/unif_N_300_data_",
+										  "Data/norm_2p31_300_data_",
+										  //"Data/unif_2p15_1000_data_",
+										  //"Data/unif_2p31_1000_data_",
+										  //"Data/unif_N_1000_data_",
+										  //"Data/norm_2p31_1000_data_"
+										  };	
+
+
+
+	for(auto filecopy : filenames)
 	{
-		std::cout << "Could not open the file.\n";
-		return 0;
+		std::ifstream file[5];
+		for(int i = 0; i < 5; ++i)
+			file[i].open(filecopy + std::to_string(i) + ".txt");
+
+		for(int i = 0; i < 5; ++i)
+			if (!(file[i]).is_open()){
+				std::cout << "Could not open the file " << filecopy << i << "\n";
+				return 0;
+			}
+
+		int sum = 0;
+		for(int i = 0; i < 5; ++i){
+			T numbers;
+			int number;
+			while(file[i] >> number)
+				numbers.push_back(number);
+
+			auto start = steady_clock::now();
+			strand_sort(numbers);
+			auto end = steady_clock::now();
+			sum += duration_cast<milliseconds>(end - start).count();
+		}
+		average_millisec[filecopy] = sum/5;
+		std::cout << "======" << filecopy << "======\n";
+
 	}
+	std::cout << "STRAND\n";
+	for(auto i : average_millisec)
+	{
+		std::cout << "    Average time for " << i.first << ": " << i.second << " mls. \n";
+	}
+	
+    return 0;
+}
+ 
+void check_sort(void (*sort)(T&), std::string msg)
+{
+	//displaying that sorting actually works
+	T numbers;
+	std::ifstream file("my_data.txt");
+
+	if (!file.is_open()){
+		std::cout << "Could not open the file.\n";
+		return;
+	}
+
 	int number;
 	while(file >> number)
 		numbers.push_back(number);
@@ -21,16 +94,13 @@ int main()
 	for(int i = 0; i < numbers.size(); ++i)
 		std::cout << numbers[i] << ' ';
 
-	auto start = steady_clock::now();
-	pigeonhole_sort(numbers);
-	auto end = steady_clock::now();
-    auto elapsed = duration_cast<milliseconds>(end - start);
-    std::cout << "\nstrand sort: " << elapsed.count() << " mls\n";
-
+	sort(numbers);	//sort that we want to check
+	std::cout << "\n\nsorting with " << msg << "...\n";	
 	std::cout << "\nsorted numbers: \n";
 	for(auto i : numbers)
 		std::cout << i << ' ';
 	std::cout << '\n';
 
-	return 0;
+	std::cout << "------------------------------\n";
+
 }

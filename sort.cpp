@@ -1,5 +1,4 @@
 #include "sort.h"
-typedef std::vector<int> T;
 
 void strand_sort(T & numbers)
 {
