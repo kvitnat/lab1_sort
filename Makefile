@@ -9,7 +9,7 @@ check: check.cpp
 	./check
 
 display: displaySort.cpp sort.h sort.cpp
-	g++ sort.cpp displaySort.cpp -o display
+	g++ -pthread sort.cpp displaySort.cpp -o display
 	./display
 	
 ifeq ($(OS),Windows_NT)

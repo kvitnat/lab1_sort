@@ -28,6 +28,11 @@ void strand_sort(T & numbers)
     numbers = result;
 }
 
+void stable_sort(T & numbers)
+{
+    std::stable_sort(numbers.begin(), numbers.end());
+}
+
 void pigeonhole_sort(T & numbers)
 {
     int min = numbers[0], max = numbers[0];
@@ -41,17 +46,20 @@ void pigeonhole_sort(T & numbers)
 
     int range = max - min + 1;
 
-    T* pigeonholes = new T[range];
-    for(int i = 0; i < numbers.size(); ++i)
+    try{
+        T* pigeonholes = new T[range];
+        for(int i = 0; i < numbers.size(); ++i)
         pigeonholes[numbers[i] - min].push_back(numbers[i]);
 
-    numbers.clear();
-    for(int i = 0; i < range; ++i){
-        for(int j = 0; j < pigeonholes[i].size(); ++j)
-            numbers.push_back((pigeonholes[i])[j]);
+        numbers.clear();
+        for(int i = 0; i < range; ++i){
+            for(int j = 0; j < pigeonholes[i].size(); ++j)
+                numbers.push_back((pigeonholes[i])[j]);
     }
-
-
+    }
+    catch(std::exception & ex){
+        std::cout << ex.what() << std::endl;
+    }
 }
 
 void multi_pivot_sort(std::vector<int> & numbers)
