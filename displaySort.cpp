@@ -22,39 +22,45 @@ int main()
 	std::map<std::string, int> average_millisec_strand, 
 							   average_millisec_pigeon,
 							   average_millisec_stable,
-							   average_millisec_intrst;
+							   average_millisec_intrst,
+							   average_millisec_quicks,
+							   average_millisec_sort;
 
 	std::vector<std::string> filenames = {"Data/unif_2p15_30_data_", //strand
-										  //"Data/unif_2p31_30_data_",
+										  "Data/unif_2p31_30_data_",
 										  "Data/unif_N_30_data_",
-										  //"Data/norm_2p31_30_data_",
+										  "Data/norm_2p31_30_data_",
 										  "Data/unif_2p15_100_data_",
-										  //"Data/unif_2p31_100_data_",
+										  "Data/unif_2p31_100_data_",
 										  "Data/unif_N_100_data_",
-										  //"Data/norm_2p31_100_data_",
-										  //"Data/unif_2p15_300_data_",
-										  //"Data/unif_2p31_300_data_",
-										  //"Data/unif_N_300_data_",
-										  //"Data/norm_2p31_300_data_",
-										  //"Data/unif_2p15_1000_data_",
-										  //"Data/unif_2p31_1000_data_",
-										  //"Data/unif_N_1000_data_",
-										  //"Data/norm_2p31_1000_data_"
+										  "Data/norm_2p31_100_data_",
+										  "Data/unif_2p15_300_data_",
+										  "Data/unif_2p31_300_data_",
+										  "Data/unif_N_300_data_",
+										  "Data/norm_2p31_300_data_",
+										  "Data/unif_2p15_1000_data_",
+										  "Data/unif_2p31_1000_data_",
+										  "Data/unif_N_1000_data_",
+										  "Data/norm_2p31_1000_data_"
 										  };	
 
-	std::thread th1(count_time, std::ref(filenames), std::ref(average_millisec_strand), strand_sort);
-	std::thread th2(count_time, std::ref(filenames), std::ref(average_millisec_pigeon), pigeonhole_sort);
+	//std::thread th1(count_time, std::ref(filenames), std::ref(average_millisec_strand), strand_sort);
+	//std::thread th2(count_time, std::ref(filenames), std::ref(average_millisec_pigeon), pigeonhole_sort);
 	std::thread th3(count_time, std::ref(filenames), std::ref(average_millisec_stable), stable_sort);
 	std::thread th4(count_time, std::ref(filenames), std::ref(average_millisec_intrst), introsort);
+	std::thread th5(count_time, std::ref(filenames), std::ref(average_millisec_quicks), mp_quicksort);
+	std::thread th6(count_time, std::ref(filenames), std::ref(average_millisec_sort), std_sort);
 
-	th1.join();
-	th2.join();
+	//th1.join();
+	//th2.join();
 	th3.join();
 	th4.join();
+	th5.join();
+	th6.join();
 
-	std::cout << "\nSTRAND\n";
-	for(auto i : average_millisec_strand)
-		std::cout << "    Average time for " << i.first << ": " << i.second << " mls. \n";
+	// std::cout << "\nSTRAND\n";
+	// for(auto i : average_millisec_strand)
+	// 	std::cout << "    Average time for " << i.first << ": " << i.second << " mls. \n";
 	
 	std::cout << "PIGEONHOLE\n";
 	for(auto i : average_millisec_pigeon)
@@ -67,7 +73,16 @@ int main()
 	std::cout << "INTROSORT\n";
 	for(auto i : average_millisec_intrst)
 		std::cout << "    Average time for " << i.first << ": " << i.second << " mls. \n";
+
+	std::cout << "QUICKSORT\n";
+	for(auto i : average_millisec_quicks)
+		std::cout << "    Average time for " << i.first << ": " << i.second << " mls. \n";
 	
+	std::cout << "STD SORT\n";
+	for(auto i : average_millisec_sort)
+		std::cout << "    Average time for " << i.first << ": " << i.second << " mls. \n";
+	
+
 	
     return 0;
 }

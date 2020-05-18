@@ -12,6 +12,8 @@ void stable_sort(T & numbers);
 
 void pigeonhole_sort(T & numbers);
 
-void multi_pivot_sort(T & numbers);
+void mp_quicksort(T & numbers);
 
 void introsort(T & numbers);
+
+void std_sort(T & numbers);
