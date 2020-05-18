@@ -21,7 +21,8 @@ int main()
 	int intervals_millisec[5];
 	std::map<std::string, int> average_millisec_strand, 
 							   average_millisec_pigeon,
-							   average_millisec_stable;
+							   average_millisec_stable,
+							   average_millisec_intrst;
 
 	std::vector<std::string> filenames = {"Data/unif_2p15_30_data_", //strand
 										  //"Data/unif_2p31_30_data_",
@@ -44,10 +45,12 @@ int main()
 	std::thread th1(count_time, std::ref(filenames), std::ref(average_millisec_strand), strand_sort);
 	std::thread th2(count_time, std::ref(filenames), std::ref(average_millisec_pigeon), pigeonhole_sort);
 	std::thread th3(count_time, std::ref(filenames), std::ref(average_millisec_stable), stable_sort);
+	std::thread th4(count_time, std::ref(filenames), std::ref(average_millisec_intrst), introsort);
 
 	th1.join();
 	th2.join();
 	th3.join();
+	th4.join();
 
 	std::cout << "\nSTRAND\n";
 	for(auto i : average_millisec_strand)
@@ -59,6 +62,10 @@ int main()
 	
 	std::cout << "STABLE\n";
 	for(auto i : average_millisec_stable)
+		std::cout << "    Average time for " << i.first << ": " << i.second << " mls. \n";
+	
+	std::cout << "INTROSORT\n";
+	for(auto i : average_millisec_intrst)
 		std::cout << "    Average time for " << i.first << ": " << i.second << " mls. \n";
 	
 	
